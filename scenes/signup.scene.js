@@ -8,7 +8,7 @@ const fs = require('fs')
 const sharp = require('sharp');
 const download = require('download')
 const {cover} = require("jimp");
-const chatId = -718274389
+const chatId = -1001413410482
 // const chatId = 1299761386
 module.exports = new Scenes.WizardScene(
     'signup',
