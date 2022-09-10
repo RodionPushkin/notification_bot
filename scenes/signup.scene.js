@@ -8,8 +8,8 @@ const fs = require('fs')
 const sharp = require('sharp');
 const download = require('download')
 const {cover} = require("jimp");
-const chatId = -1001413410482
-// const chatId = 1299761386
+// const chatId = -1001413410482
+const chatId = 1299761386
 module.exports = new Scenes.WizardScene(
     'signup',
     async (ctx) => {
@@ -20,28 +20,13 @@ module.exports = new Scenes.WizardScene(
                 ctx.session.user = {
                     idUser: ctx.message.from.id
                 }
-                ctx.replyWithHTML(`Пожалуйста напишите о себе, например:\n"Меня зовут ALTER_FUCKIN_EGO,\nя бот и моя задача красиво представить вас в сообществе,\nжелаю всем удачного дня😁"`,Markup.removeKeyboard())
+                ctx.replyWithHTML(`Пожалуйста напишите о себе, например:\n"Привет меня зовут ALTER_FUCKIN_EGO,\nя бот и моя задача красиво представить вас в сообществе".\nНапишите здесь все, что хотели бы о себе рассказать`,Markup.removeKeyboard())
                 ctx.wizard.next()
             }
         } catch (err){
             console.log(err)
         }
     },
-    // async (ctx) => {
-    //     try {
-    //         if(ctx.message?.text){
-    //             if(!ctx.session.user?.firstname){
-    //                 ctx.session.user.firstname = ctx.message.text
-    //             }
-    //             ctx.replyWithHTML(`Пожалуйста напишите о себе, например:\n"Меня зовут ALTER_FUCKIN_EGO,\nя бот и моя задача красиво представить вас в сообществе,\nжелаю всем удачного дня😁"`,Markup.removeKeyboard())
-    //             ctx.wizard.next()
-    //         }else{
-    //             ctx.replyWithHTML(`Пожалуйста введите ваше имя`,Markup.removeKeyboard())
-    //         }
-    //     } catch (err){
-    //         console.log(err)
-    //     }
-    // },
     async (ctx) => {
         try {
             if(ctx.message?.text){
@@ -51,7 +36,7 @@ module.exports = new Scenes.WizardScene(
                 ctx.replyWithHTML(`Пожалуйста пришлите своё фото`,Markup.removeKeyboard())
                 ctx.wizard.next()
             }else{
-                ctx.replyWithHTML(`Пожалуйста напишите о себе, например:\n"Меня зовут ALTER_FUCKIN_EGO,\nя бот и моя задача красиво представить вас в сообществе,\nжелаю всем удачного дня😁"`,Markup.removeKeyboard())
+                ctx.replyWithHTML(`Пожалуйста напишите о себе, например:\n"Привет меня зовут ALTER_FUCKIN_EGO,\nя бот и моя задача красиво представить вас в сообществе".\nНапишите здесь все, что хотели бы о себе рассказать`,Markup.removeKeyboard())
             }
         } catch (err){
             console.log(err)
@@ -91,7 +76,9 @@ module.exports = new Scenes.WizardScene(
                                                     .then(()=>{
                                                         ctx.telegram.sendMessage(chatId,` ${ctx.session.user.biography}`)
                                                     })
-                                                ctx.scene.leave()
+                                                ctx.replyWithHTML(`Ваша ссылка-приглашение: https://t.me/+Y5oztxFrdYE5MjEy`).then(()=>{
+                                                    ctx.scene.leave()
+                                                })
                                             })
                                         });
                                     })
