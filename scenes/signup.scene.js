@@ -8,13 +8,13 @@ const fs = require('fs')
 const sharp = require('sharp');
 const download = require('download')
 const {cover} = require("jimp");
-const chatId = -1001413410482
-// const chatId = 1299761386
+// const chatId = -1001413410482
+const chatId = 1299761386
 module.exports = new Scenes.WizardScene(
     'signup',
     async (ctx) => {
         try {
-            if(chatId == ctx.message.chat.id){
+            if(chatId != ctx.message.chat.id){
                 ctx.scene.leave()
             }else{
                 ctx.session.user = {
@@ -24,7 +24,7 @@ module.exports = new Scenes.WizardScene(
                 ctx.wizard.next()
             }
         } catch (err){
-            console.log(err)
+            console.log(err)    
         }
     },
     async (ctx) => {
