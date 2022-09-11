@@ -24,7 +24,7 @@ module.exports = new Scenes.WizardScene(
                 ctx.wizard.next()
             }
         } catch (err){
-            console.log(err)    
+            console.log(err)
         }
     },
     async (ctx) => {
@@ -84,7 +84,7 @@ module.exports = new Scenes.WizardScene(
                                     })
                                 })
                             })
-                        },100)
+                        },1000)
                     })
                 })
             }else{
