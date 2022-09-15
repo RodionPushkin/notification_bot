@@ -56,35 +56,31 @@ module.exports = new Scenes.WizardScene(
                         sharp(`./tmp/${fileName}`).resize(800,800).gamma().modulate({
                             brightness: 0.7,
                             saturation: 0.5,
-                        })
-                            .composite([{input:'./tmp/card.png'}])
-                            .toFile(`./tmp/${fileName.split('.')[0]}.${ctx.session.user.idUser}-edited.jpg`)
-                        editedFile = `./tmp/${fileName.split('.')[0]}.${ctx.session.user.idUser}-edited.jpg`
-                        setTimeout(()=>{
-                            ctx.reply(`Готово:`).then(()=>{
-                                console.log(editedFile)
-                                ctx.replyWithPhoto({ source: editedFile }).then(()=>{
-                                    ctx.replyWithHTML(`${ctx.session.user.biography}`).then(()=>{
-                                        fs.unlink(`./tmp/${fileName}`, (err) => {
-                                            if (err) {
-                                                throw err;
-                                            }
-                                            ctx.session.user.image = editedFile
-                                            console.log(ctx.session.user)
-                                            db.run(`INSERT INTO 'user' (biography,IDUser,image) VALUES ('${ctx.session.user.biography}',${ctx.session.user.idUser},'${ctx.session.user.image}')`).then(res=>{
-                                                ctx.telegram.sendPhoto(chatId,{ source: ctx.session.user.image })
-                                                    .then(()=>{
-                                                        ctx.telegram.sendMessage(chatId,` ${ctx.session.user.biography}`)
+                        }).composite([{input:'./tmp/card.png'}]).toFile(`./tmp/${fileName.split('.')[0]}.${ctx.session.user.idUser}-edited.jpg`).then(()=>{
+                            editedFile = `./tmp/${fileName.split('.')[0]}.${ctx.session.user.idUser}-edited.jpg`
+                            setTimeout(()=>{
+                                ctx.reply(`Готово:`).then(()=>{
+                                    console.log(editedFile)
+                                    ctx.replyWithPhoto({ source: editedFile }).then(()=>{
+                                        ctx.replyWithHTML(`${ctx.session.user.biography}`).then(()=>{
+                                            fs.unlink(`./tmp/${fileName}`, (err) => {
+                                                if (err) {
+                                                    throw err;
+                                                }
+                                                ctx.session.user.image = editedFile
+                                                db.run(`INSERT INTO 'user' (biography,IDUser,image) VALUES ('${ctx.session.user.biography}',${ctx.session.user.idUser},'${ctx.session.user.image}')`).then(res=>{
+                                                    ctx.telegram.sendPhoto(chatId,{ source: ctx.session.user.image },{caption: ctx.session.user.biography}).then(()=>{
+                                                        ctx.replyWithHTML(`Ваша ссылка-приглашение: https://t.me/+Y5oztxFrdYE5MjEy`).then(()=>{
+                                                            ctx.scene.leave()
+                                                        })
                                                     })
-                                                ctx.replyWithHTML(`Ваша ссылка-приглашение: https://t.me/+Y5oztxFrdYE5MjEy`).then(()=>{
-                                                    ctx.scene.leave()
                                                 })
-                                            })
-                                        });
+                                            });
+                                        })
                                     })
                                 })
-                            })
-                        },1000)
+                            },3000)
+                        })
                     })
                 })
             }else{
